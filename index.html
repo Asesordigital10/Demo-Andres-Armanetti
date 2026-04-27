@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andres Armanetti | Alineación y Balanceo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --dark-bg: #0f1113;
+            --card-bg: #1a1d21;
+            --text-light: #f4f4f9;
+            --accent-green: #25d366; /* WhatsApp Green */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 10px;
+        }
+
+        .container { width: 100%; max-width: 480px; }
+
+        /* Header & Logo */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, #16191c 0%, var(--dark-bg) 100%);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+
+        .logo-placeholder {
+            width: 80px; height: 80px;
+            background: var(--primary-blue);
+            margin: 0 auto 15px;
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: white;
+        }
+
+        header h1 { font-size: 1.5rem; letter-spacing: 1px; text-transform: uppercase; }
+        header p { color: #888; font-size: 0.9rem; }
+
+        /* Formulario de Turnos */
+        .booking-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid #2d3238;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--primary-blue); font-weight: bold; }
+        
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #3e444d;
+            background: #252a30;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .btn-whatsapp {
+            width: 100%;
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.2s;
+        }
+
+        .btn-whatsapp:active { transform: scale(0.98); }
+
+        /* Contacto Técnico */
+        .tech-contact {
+            margin-top: 25px;
+            text-align: center;
+            padding: 15px;
+            border: 1px dashed #3e444d;
+            border-radius: 15px;
+        }
+
+        .tech-contact a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        footer { margin-top: 30px; font-size: 0.7rem; color: #555; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <!-- Aquí iría la imagen del logo generado -->
+            <div class="logo-placeholder">
+                <i class="fa-solid fa-car-side"></i>
+            </div>
+            <h1>Andres Armanetti</h1>
+            <p>Alineación • Balanceo • Tren Delantero</p>
+        </header>
+
+        <div class="booking-card">
+            <div class="form-group">
+                <label>SELECCIONE SERVICIO</label>
+                <select id="servicio">
+                    <option value="Alineación y Balanceo">Alineación y Balanceo</option>
+                    <option value="Revisión de Tren Delantero">Revisión de Tren Delantero</option>
+                    <option value="Solo Balanceo">Solo Balanceo (4 ruedas)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>FECHA DEL TURNO</label>
+                <input type="date" id="fecha" onchange="generarHoras()">
+            </div>
+
+            <div class="form-group">
+                <label>HORA DISPONIBLE (1 HORA DE DURACIÓN)</label>
+                <select id="hora">
+                    <option value="">Seleccione una fecha primero</option>
+                </select>
+            </div>
+
+            <button class="btn-whatsapp" onclick="enviarTurno()">
+                <i class="fa-brands fa-whatsapp"></i> AGENDAR POR WHATSAPP
+            </button>
+        </div>
+
+        <div class="tech-contact">
+            <p>¿Duda técnica urgente?</p>
+            <a href="https://wa.me/59895418669?text=Hola%20Andres,%20tengo%20una%20consulta%20técnica..." target="_blank">
+                <i class="fa-solid fa-user-gear"></i> Hablar con el Técnico
+            </a>
+        </div>
+
+        <footer>
+            &copy; 2024 Andres Armanetti - Desarrollado por Asesor Digital UY
+        </footer>
+    </div>
+
+    <script>
+        // Configuración de horarios
+        function generarHoras() {
+            const fechaInput = document.getElementById('fecha').value;
+            const horaSelect = document.getElementById('hora');
+            const fechaSeleccionada = new Date(fechaInput + "T00:00:00");
+            const diaSemana = fechaSeleccionada.getDay(); // 0=Dom, 1=Lun... 6=Sab
+
+            horaSelect.innerHTML = '';
+
+            if (diaSemana === 0) {
+                horaSelect.innerHTML = '<option>Cerrado los Domingos</option>';
+                return;
+            }
+
+            let inicio = 8;
+            let fin = (diaSemana === 6) ? 12 : 17; // Sábado hasta las 12, resto hasta las 17
+
+            for (let h = inicio; h < fin; h++) {
+                let horaFormateada = `${h}:00 hs`;
+                let option = document.createElement('option');
+                option.value = horaFormateada;
+                option.text = horaFormateada;
+                horaSelect.appendChild(option);
+            }
+        }
+
+        function enviarTurno() {
+            const tel = "59895418669"; // Reemplazar por el número real
+            const servicio = document.getElementById('servicio').value;
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
+
+            if (!fecha || !hora) {
+                alert("Por favor selecciona fecha y hora");
+                return;
+            }
+
+            const mensaje = `Hola Andres Armanetti, quiero agendar un turno:%0A%0A` +
+                            `🛠 *Servicio:* ${servicio}%0A` +
+                            `📅 *Fecha:* ${fecha}%0A` +
+                            `⏰ *Hora:* ${hora}%0A%0A` +
+                            `Confirmame disponibilidad, gracias!`;
+
+            window.open(`https://wa.me/${tel}?text=${mensaje}`, '_blank');
+        }
+
+        // Establecer fecha mínima como "hoy"
+        document.getElementById('fecha').min = new Date().toISOString().split("T")[0];
+    </script>
+</body>
+</html>
