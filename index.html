@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andres Armanetti | Alineación y Balanceo</title>
-    <!-- Favicon con tu logo -->
     <link rel="icon" type="image/png" href="andresalineacionrojo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
             --primary-blue: #0056b3;
+            --google-blue: #4285F4;
             --dark-bg: #0f1113;
             --card-bg: #1a1d21;
             --text-light: #f4f4f9;
@@ -30,40 +30,48 @@
         /* Header */
         header {
             text-align: center;
-            padding: 35px 15px;
+            padding: 25px 15px;
             background: linear-gradient(180deg, #16191c 0%, var(--dark-bg) 100%);
-            border-radius: 25px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--primary-blue);
+            border-radius: 25px 25px 0 0;
         }
 
         .logo-img {
-            width: 200px;
+            width: 220px;
             height: auto;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
         }
 
-        header h1 { font-size: 1.5rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
-        
-        /* Enlace de Dirección (Google Maps) */
-        .address-link {
-            display: inline-flex;
+        /* TARJETA DE GOOGLE MAPS - ALTA VISIBILIDAD */
+        .maps-card {
+            background: #ffffff;
+            border-radius: 15px;
+            margin: 0 10px 25px 10px;
+            display: flex;
             align-items: center;
-            gap: 8px;
-            color: var(--primary-blue);
+            padding: 15px;
             text-decoration: none;
-            font-size: 0.9rem;
-            background: rgba(0, 86, 179, 0.1);
-            padding: 10px 18px;
-            border-radius: 50px;
-            margin-top: 10px;
-            border: 1px solid rgba(0, 86, 179, 0.3);
-            transition: 0.3s;
+            color: #333;
+            border: 3px solid var(--google-blue);
+            box-shadow: 0 10px 20px rgba(66, 133, 244, 0.3);
+            transition: transform 0.2s;
         }
-        .address-link:active { background: var(--primary-blue); color: white; }
+        .maps-card:active { transform: scale(0.97); }
 
-        /* Tarjeta de Turnos */
+        .maps-icon {
+            background: var(--google-blue);
+            color: white;
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .maps-info strong { display: block; font-size: 1rem; color: #1a1a1a; }
+        .maps-info span { font-size: 0.85rem; color: var(--google-blue); font-weight: 800; text-transform: uppercase; }
+
+        /* Formulario */
         .booking-card {
             background: var(--card-bg);
             padding: 25px;
@@ -72,12 +80,12 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
 
-        .form-group { margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--primary-blue); font-weight: bold; text-transform: uppercase; }
         
-        select, input {
+        input, select {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             border-radius: 12px;
             border: 1px solid #3e444d;
             background: #252a30;
@@ -100,20 +108,19 @@
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
         }
 
-        /* Contacto Técnico */
         .tech-box {
-            margin-top: 25px;
+            margin-top: 20px;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             background: #16191c;
             border-radius: 20px;
             border: 1px solid #2d3238;
         }
-        .tech-box p { font-size: 0.85rem; color: #888; margin-bottom: 10px; }
         .tech-box a { color: #00a8ff; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
-        footer { margin-top: 40px; padding-bottom: 30px; text-align: center; }
-        footer p { font-size: 0.75rem; color: #555; line-height: 1.6; }
+        footer { margin-top: 30px; padding-bottom: 30px; text-align: center; }
+        footer p { font-size: 0.75rem; color: #555; line-height: 1.5; }
+        .break-info { color: #fbc02d; font-weight: bold; font-size: 0.8rem; margin-top: 5px; display: block; }
     </style>
 </head>
 <body>
@@ -121,18 +128,28 @@
     <div class="container">
         <header>
             <img src="andresalineacion.png" alt="Andres Armanetti" class="logo-img">
-            <h1>Andres Armanetti</h1>
             <p>Alineación • Balanceo • Tren Delantero • Cubiertas</p>
-            
-            <!-- Link a Google Maps -->
-            <a href="https://www.google.com/maps/search/?api=1&query=Juan+Jacobo+Rousseau+3784+Montevideo" target="_blank" class="address-link">
-                <i class="fa-solid fa-location-dot"></i> J. J. Rousseau 3784, Montevideo
-            </a>
         </header>
+
+        <!-- Botón de Google Maps Resaltado -->
+        <a href="https://www.google.com/maps/search/?api=1&query=Juan+Jacobo+Rousseau+3784+Montevideo" target="_blank" class="maps-card">
+            <div class="maps-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div class="maps-info">
+                <strong>J. J. Rousseau 3784</strong>
+                <span><i class="fa-solid fa-map"></i> Tocar para abrir Google Maps</span>
+            </div>
+        </a>
 
         <div class="booking-card">
             <div class="form-group">
-                <label>Servicio Requerido</label>
+                <label>Tu Nombre</label>
+                <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
+            </div>
+
+            <div class="form-group">
+                <label>Servicio</label>
                 <select id="servicio">
                     <option value="Alineación y Balanceo">Alineación y Balanceo</option>
                     <option value="Tren Delantero/Trasero">Tren Delantero / Trasero</option>
@@ -142,32 +159,32 @@
             </div>
 
             <div class="form-group">
-                <label>Fecha del Turno</label>
+                <label>Fecha</label>
                 <input type="date" id="fecha" onchange="generarHoras()">
             </div>
 
             <div class="form-group">
-                <label>Hora Disponible</label>
+                <label>Hora disponible</label>
                 <select id="hora">
                     <option value="">Seleccione una fecha</option>
                 </select>
+                <span class="break-info">Descanso: 12:00 a 13:00 hs</span>
             </div>
 
             <button class="btn-whatsapp" onclick="enviarTurno()">
-                <i class="fa-brands fa-whatsapp"></i> AGENDAR POR WHATSAPP
+                <i class="fa-brands fa-whatsapp"></i> AGENDAR TURNO
             </button>
         </div>
 
         <div class="tech-box">
-            <p>¿Dudas sobre un repuesto o falla?</p>
             <a href="https://wa.me/59895738828?text=Hola%20Andres,%20tengo%20una%20consulta%20técnica..." target="_blank">
-                <i class="fa-solid fa-screwdriver-wrench"></i> HABLAR CON EL TÉCNICO
+                <i class="fa-solid fa-screwdriver-wrench"></i> CONSULTA TÉCNICA DIRECTA
             </a>
         </div>
 
         <footer>
             <p>
-                Horario de Atención:<br>
+                <strong>Horarios de Taller:</strong><br>
                 Lunes a Viernes: 07:00 a 18:00 hs<br>
                 Sábados: 07:00 a 13:00 hs
             </p>
@@ -176,12 +193,11 @@
     </div>
 
     <script>
-        // Configuración de Horarios de Turnos
         function generarHoras() {
             const fechaInput = document.getElementById('fecha').value;
             const horaSelect = document.getElementById('hora');
             const fechaSeleccionada = new Date(fechaInput + "T00:00:00");
-            const diaSemana = fechaSeleccionada.getDay(); // 0=Dom, 1=Lun, 6=Sab
+            const diaSemana = fechaSeleccionada.getDay(); 
 
             horaSelect.innerHTML = '';
 
@@ -190,40 +206,54 @@
                 return;
             }
 
-            // Horarios de toma de turnos solicitados: 7 a 17hs (L-V) y 7 a 12hs (Sáb)
-            let inicio = 7;
-            let fin = (diaSemana === 6) ? 12 : 17; 
-
-            for (let h = inicio; h <= fin; h++) {
-                let horaFormateada = (h < 10 ? '0' + h : h) + ':00 hs';
-                let option = document.createElement('option');
-                option.value = horaFormateada;
-                option.text = horaFormateada;
-                horaSelect.appendChild(option);
+            // Lógica de Horarios con descanso
+            if (diaSemana >= 1 && diaSemana <= 5) { // Lunes a Viernes
+                // Mañana: 07 a 11
+                for (let h = 7; h <= 11; h++) {
+                    agregarOpcion(horaSelect, h);
+                }
+                // Tarde: 13 a 17
+                for (let h = 13; h <= 17; h++) {
+                    agregarOpcion(horaSelect, h);
+                }
+            } else if (diaSemana === 6) { // Sábados
+                // 07 a 12 (No hay descanso porque cierra a las 13)
+                for (let h = 7; h <= 12; h++) {
+                    agregarOpcion(horaSelect, h);
+                }
             }
+        }
+
+        function agregarOpcion(select, hora) {
+            let horaFormateada = (hora < 10 ? '0' + hora : hora) + ':00 hs';
+            let option = document.createElement('option');
+            option.value = horaFormateada;
+            option.text = horaFormateada;
+            select.appendChild(option);
         }
 
         function enviarTurno() {
             const tel = "59895738828";
+            const nombre = document.getElementById('nombre').value;
             const servicio = document.getElementById('servicio').value;
             const fecha = document.getElementById('fecha').value;
             const hora = document.getElementById('hora').value;
 
-            if (!fecha || !hora || hora.includes("Seleccione")) {
-                alert("Por favor, selecciona una fecha y hora válida.");
+            if (!nombre || !fecha || !hora || hora.includes("Seleccione")) {
+                alert("Por favor, completa nombre, fecha y hora.");
                 return;
             }
 
-            const mensaje = `Hola Andres Armanetti, quiero agendar un turno:%0A%0A` +
+            const mensaje = `Hola Andres Armanetti, soy *${nombre}*.%0A%0A` +
+                            `Solicito un turno para:%0A` +
                             `🛠 *Servicio:* ${servicio}%0A` +
                             `📅 *Fecha:* ${fecha}%0A` +
                             `⏰ *Hora:* ${hora}%0A%0A` +
-                            `Confirmame disponibilidad por favor.`;
+                            `Confirmame si es posible, gracias!`;
 
             window.open(`https://wa.me/${tel}?text=${mensaje}`, '_blank');
         }
 
-        // Bloquear fechas anteriores a hoy
         const hoy = new Date().toISOString().split("T")[0];
         document.getElementById('fecha').setAttribute('min', hoy);
     </script>
