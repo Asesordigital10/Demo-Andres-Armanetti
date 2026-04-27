@@ -1,15 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Armanetti Alineaciones | Turnos Online</title>
-    <!-- Favicon -->
+    <!-- Favicon corregido -->
     <link rel="icon" type="image/jpeg" href="andresrojo.jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --primary-red: #cc0000; /* Rojo Armanetti */
+            --primary-red: #cc0000;
             --silver-metal: #a6a6a6;
             --google-blue: #4285F4;
             --dark-bg: #0a0a0a;
@@ -18,7 +19,7 @@
             --accent-green: #25d366;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
         body {
             background-color: var(--dark-bg);
@@ -29,7 +30,6 @@
 
         .container { width: 100%; max-width: 450px; }
 
-        /* Header con el nuevo Logo */
         header {
             text-align: center;
             padding: 20px 15px;
@@ -38,13 +38,12 @@
         }
 
         .logo-img {
-            width: 250px; /* Tamaño optimizado para el logo circular */
+            width: 250px;
             height: auto;
             margin-bottom: 10px;
             filter: drop-shadow(0px 4px 15px rgba(204, 0, 0, 0.3));
         }
 
-        /* TARJETA DE GOOGLE MAPS - ALTA VISIBILIDAD */
         .maps-card {
             background: #ffffff;
             border-radius: 15px;
@@ -56,9 +55,7 @@
             color: #333;
             border: 3px solid var(--google-blue);
             box-shadow: 0 10px 20px rgba(66, 133, 244, 0.3);
-            transition: transform 0.2s;
         }
-        .maps-card:active { transform: scale(0.97); }
 
         .maps-icon {
             background: var(--google-blue);
@@ -73,7 +70,6 @@
         .maps-info strong { display: block; font-size: 1rem; color: #1a1a1a; }
         .maps-info span { font-size: 0.85rem; color: var(--google-blue); font-weight: 800; text-transform: uppercase; }
 
-        /* Formulario de Turnos */
         .booking-card {
             background: var(--card-bg);
             padding: 25px;
@@ -84,7 +80,7 @@
         }
 
         .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--primary-red); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--primary-red); font-weight: bold; text-transform: uppercase; }
         
         input, select {
             width: 100%;
@@ -97,8 +93,6 @@
             outline: none;
         }
 
-        input:focus, select:focus { border-color: var(--primary-red); }
-
         .btn-whatsapp {
             width: 100%;
             background-color: var(--accent-green);
@@ -110,11 +104,7 @@
             font-size: 1.1rem;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 12px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-            text-transform: uppercase;
         }
-
-        .btn-whatsapp:active { transform: scale(0.98); }
 
         .tech-box {
             margin-top: 20px;
@@ -124,11 +114,10 @@
             border-radius: 20px;
             border: 1px solid #333;
         }
-        .tech-box a { color: var(--silver-metal); text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; }
-        .tech-box i { color: var(--primary-red); }
+        .tech-box a { color: var(--silver-metal); text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
         footer { margin-top: 30px; padding-bottom: 30px; text-align: center; }
-        footer p { font-size: 0.75rem; color: #666; line-height: 1.5; }
+        footer p { font-size: 0.75rem; color: #666; }
         .break-info { color: #fbc02d; font-weight: bold; font-size: 0.75rem; margin-top: 6px; display: block; }
     </style>
 </head>
@@ -136,29 +125,25 @@
 
     <div class="container">
         <header>
-            <!-- Logo actualizado -->
-            <img src="input_file_0.jpeg" alt="Armanetti Alineaciones" class="logo-img">
+            <!-- Nombre de archivo corregido según tu GitHub -->
+            <img src="andresrojo.jpeg" alt="Armanetti Alineaciones" class="logo-img">
         </header>
 
-        <!-- Ubicación Google Maps Resaltada -->
         <a href="https://www.google.com/maps/search/?api=1&query=Juan+Jacobo+Rousseau+3784+Montevideo" target="_blank" class="maps-card">
-            <div class="maps-icon">
-                <i class="fa-solid fa-location-dot"></i>
-            </div>
+            <div class="maps-icon"><i class="fa-solid fa-location-dot"></i></div>
             <div class="maps-info">
                 <strong>J. J. Rousseau 3784</strong>
-                <span><i class="fa-solid fa-map-location-dot"></i> Cómo llegar con Google Maps</span>
+                <span>Tocar para abrir Google Maps</span>
             </div>
         </a>
 
         <div class="booking-card">
             <div class="form-group">
-                <label><i class="fa-solid fa-user"></i> Nombre Completo</label>
-                <input type="text" id="nombre" placeholder="Ej: Carlos Rodríguez">
+                <label>Nombre Completo</label>
+                <input type="text" id="nombre" placeholder="Tu nombre">
             </div>
-
             <div class="form-group">
-                <label><i class="fa-solid fa-screwdriver-wrench"></i> Servicio</label>
+                <label>Servicio</label>
                 <select id="servicio">
                     <option value="Alineación y Balanceo">Alineación y Balanceo</option>
                     <option value="Tren Delantero/Trasero">Tren Delantero / Trasero</option>
@@ -166,38 +151,28 @@
                     <option value="Mecánica Ligera">Mecánica Ligera</option>
                 </select>
             </div>
-
             <div class="form-group">
-                <label><i class="fa-solid fa-calendar-check"></i> Fecha del Turno</label>
+                <label>Fecha</label>
                 <input type="date" id="fecha" onchange="generarHoras()">
             </div>
-
             <div class="form-group">
-                <label><i class="fa-solid fa-clock"></i> Hora (1 hora de duración)</label>
-                <select id="hora">
-                    <option value="">Seleccione una fecha</option>
-                </select>
-                <span class="break-info"><i class="fa-solid fa-mug-hot"></i> Descanso del taller: 12:00 a 13:00 hs</span>
+                <label>Hora</label>
+                <select id="hora"><option value="">Seleccione fecha</option></select>
+                <span class="break-info">Descanso: 12:00 a 13:00 hs</span>
             </div>
-
             <button class="btn-whatsapp" onclick="enviarTurno()">
-                <i class="fa-brands fa-whatsapp"></i> AGENDAR TURNO AHORA
+                <i class="fa-brands fa-whatsapp"></i> AGENDAR TURNO
             </button>
         </div>
 
         <div class="tech-box">
-            <a href="https://wa.me/59895738828?text=Hola%20Andres,%20tengo%20una%20consulta%20técnica..." target="_blank">
-                <i class="fa-solid fa-user-gear"></i> CONSULTA TÉCNICA CON ANDRÉS
+            <a href="https://wa.me/59895738828?text=Hola%20Andres" target="_blank">
+                <i class="fa-solid fa-user-gear"></i> CONSULTA TÉCNICA
             </a>
         </div>
 
         <footer>
-            <p>
-                <strong>Armanetti Alineaciones</strong><br>
-                Lunes a Viernes: 07:00 a 18:00 hs<br>
-                Sábados: 07:00 a 13:00 hs
-            </p>
-            <p style="margin-top: 15px; opacity: 0.4;">&copy; 2024 | Desarrollado por Asesor Digital UY</p>
+            <p>Armanetti Alineaciones<br>L-V: 07 a 18 | S: 07 a 13</p>
         </footer>
     </div>
 
@@ -207,55 +182,31 @@
             const horaSelect = document.getElementById('hora');
             const fechaSeleccionada = new Date(fechaInput + "T00:00:00");
             const diaSemana = fechaSeleccionada.getDay(); 
-
             horaSelect.innerHTML = '';
-
-            if (diaSemana === 0) {
-                horaSelect.innerHTML = '<option>Cerrado los Domingos</option>';
-                return;
-            }
-
-            // Lógica de Horarios: L-V (7-11 y 13-17) | Sáb (7-12)
+            if (diaSemana === 0) { horaSelect.innerHTML = '<option>Cerrado</option>'; return; }
             if (diaSemana >= 1 && diaSemana <= 5) { 
                 for (let h = 7; h <= 11; h++) { agregarOpcion(horaSelect, h); }
                 for (let h = 13; h <= 17; h++) { agregarOpcion(horaSelect, h); }
-            } else if (diaSemana === 6) { 
+            } else { 
                 for (let h = 7; h <= 12; h++) { agregarOpcion(horaSelect, h); }
             }
         }
-
-        function agregarOpcion(select, hora) {
-            let horaFormateada = (hora < 10 ? '0' + hora : hora) + ':00 hs';
-            let option = document.createElement('option');
-            option.value = horaFormateada;
-            option.text = horaFormateada;
-            select.appendChild(option);
+        function agregarOpcion(select, h) {
+            let hf = (h < 10 ? '0' + h : h) + ':00 hs';
+            let opt = document.createElement('option');
+            opt.value = hf; opt.text = hf; select.appendChild(opt);
         }
-
         function enviarTurno() {
             const tel = "59895738828";
-            const nombre = document.getElementById('nombre').value;
-            const servicio = document.getElementById('servicio').value;
-            const fecha = document.getElementById('fecha').value;
-            const hora = document.getElementById('hora').value;
-
-            if (!nombre || !fecha || !hora || hora.includes("Seleccione")) {
-                alert("Por favor, completa tu nombre, fecha y hora.");
-                return;
-            }
-
-            const mensaje = `Hola Armanetti Alineaciones, soy *${nombre}*.%0A%0A` +
-                            `Solicito un turno para:%0A` +
-                            `🛠 *Servicio:* ${servicio}%0A` +
-                            `📅 *Fecha:* ${fecha}%0A` +
-                            `⏰ *Hora:* ${hora}%0A%0A` +
-                            `Confirmame disponibilidad por favor.`;
-
-            window.open(`https://wa.me/${tel}?text=${mensaje}`, '_blank');
+            const n = document.getElementById('nombre').value;
+            const s = document.getElementById('servicio').value;
+            const f = document.getElementById('fecha').value;
+            const h = document.getElementById('hora').value;
+            if (!n || !f || !h) { alert("Completa los datos"); return; }
+            const msg = `Hola, soy *${n}*. Turno para: ${s} el ${f} a las ${h}.`;
+            window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`, '_blank');
         }
-
-        const hoy = new Date().toISOString().split("T")[0];
-        document.getElementById('fecha').setAttribute('min', hoy);
+        document.getElementById('fecha').min = new Date().toISOString().split("T")[0];
     </script>
 </body>
 </html>
