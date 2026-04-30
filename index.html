@@ -3,111 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Armanetti Alineaciones | Turnos Reales</title>
+    <title>Armanetti Alineaciones | Turnos Online</title>
     <link rel="icon" type="image/jpeg" href="andresrojo.jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --primary-red: #cc0000; --dark-bg: #0a0a0a; --card-bg: #151515; --text-light: #f4f4f9; --accent-green: #25d366; }
+        :root {
+            --primary-red: #cc0000;
+            --google-blue: #4285F4;
+            --dark-bg: #0a0a0a;
+            --card-bg: #151515;
+            --text-light: #f4f4f9;
+            --accent-green: #25d366;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-light); display: flex; flex-direction: column; align-items: center; padding: 10px; }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            display: flex; flex-direction: column; align-items: center;
+            padding: 10px;
+        }
+
         .container { width: 100%; max-width: 450px; }
-        header { text-align: center; padding: 20px; }
-        .logo-img { width: 200px; filter: drop-shadow(0px 4px 10px rgba(204,0,0,0.3)); }
-        .booking-card { background: var(--card-bg); padding: 25px; border-radius: 25px; border-top: 4px solid var(--primary-red); }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 0.8rem; color: var(--primary-red); font-weight: bold; }
-        input, select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #333; background: #202020; color: white; }
-        .btn-whatsapp { width: 100%; background: var(--accent-green); color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .loading { font-size: 0.8rem; color: #888; text-align: center; display: none; }
+
+        header { text-align: center; padding: 20px 15px; }
+        .logo-img { width: 220px; filter: drop-shadow(0px 4px 15px rgba(204, 0, 0, 0.3)); }
+
+        .maps-card {
+            background: #ffffff; border-radius: 15px; margin: 0 10px 25px 10px;
+            display: flex; align-items: center; padding: 15px; text-decoration: none;
+            color: #333; border: 3px solid var(--google-blue);
+        }
+
+        .booking-card {
+            background: var(--card-bg); padding: 25px; border-radius: 25px;
+            border: 1px solid #2d2d2d; border-top: 4px solid var(--primary-red);
+        }
+
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--primary-red); font-weight: bold; text-transform: uppercase; }
+        
+        input, select {
+            width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #333;
+            background: #202020; color: white; font-size: 1rem; outline: none;
+        }
+
+        .btn-whatsapp {
+            width: 100%; background-color: var(--accent-green); color: white;
+            border: none; padding: 18px; border-radius: 15px; font-weight: 900;
+            font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
+
+        .break-info { color: #fbc02d; font-weight: bold; font-size: 0.75rem; margin-top: 6px; display: block; }
+        .loading-text { font-size: 0.7rem; color: #888; display: none; margin-top: 5px; }
+
+        footer { margin-top: 30px; padding-bottom: 30px; text-align: center; font-size: 0.75rem; color: #666; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header><img src="andresrojo.jpeg" class="logo-img"></header>
+    <div class="container">
+        <header>
+            <img src="andresrojo.jpeg" alt="Armanetti Alineaciones" class="logo-img">
+        </header>
 
-    <div class="booking-card">
-        <div class="form-group">
-            <label>Nombre Completo</label>
-            <input type="text" id="nombre" placeholder="Tu nombre">
+        <a href="https://www.google.com/maps/search/?api=1&query=Juan+Jacobo+Rousseau+3784+Montevideo" target="_blank" class="maps-card">
+            <div style="background:var(--google-blue); color:white; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-right:15px;">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div>
+                <strong style="display:block">J. J. Rousseau 3784</strong>
+                <span style="font-size:0.8rem; color:var(--google-blue)">Tocar para abrir Google Maps</span>
+            </div>
+        </a>
+
+        <div class="booking-card">
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
+            </div>
+
+            <div class="form-group">
+                <label>Servicio</label>
+                <select id="servicio">
+                    <option value="Alineación y Balanceo">Alineación y Balanceo</option>
+                    <option value="Tren Delantero/Trasero">Tren Delantero / Trasero</option>
+                    <option value="Venta de Cubiertas">Venta de Cubiertas</option>
+                    <option value="Mecánica Ligera">Mecánica Ligera</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" id="fecha" onchange="generarHoras()">
+            </div>
+
+            <div class="form-group">
+                <label>Hora Disponible</label>
+                <select id="hora">
+                    <option value="">Seleccione una fecha</option>
+                </select>
+                <div id="loading" class="loading-text">Verificando disponibilidad en tiempo real...</div>
+                <span class="break-info">Descanso: 12:00 a 13:00 hs</span>
+            </div>
+
+            <button class="btn-whatsapp" onclick="enviarTurno()">
+                <i class="fa-brands fa-whatsapp"></i> AGENDAR TURNO
+            </button>
         </div>
-        <div class="form-group">
-            <label>Fecha</label>
-            <input type="date" id="fecha" onchange="cargarHorasDisponibles()">
-        </div>
-        <div class="form-group">
-            <label>Hora Disponible</label>
-            <select id="hora"><option value="">Seleccione fecha</option></select>
-            <div id="loader" class="loading">Consultando disponibilidad...</div>
-        </div>
-        <button class="btn-whatsapp" onclick="agendarTurno()">AGENDAR TURNO</button>
+
+        <footer>
+            <p>Armanetti Alineaciones | L-V: 07 a 18 | S: 07 a 13</p>
+        </footer>
     </div>
-</div>
 
-<script>
-    const SCRIPT_URL = https://script.google.com/macros/s/AKfycbzINUneirUvVix6s3W9-gF1tJzwZxa367ZOBuG3bm2aBvk5UQiQsSX7_JG-3SXLhu9DHw/exec; // <--- PEGA AQUÍ TU URL
-    let ocupados = [];
+    <script>
+        // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT CUANDO LA TENGAS
+        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbzINUneirUvVix6s3W9-gF1tJzwZxa367ZOBuG3bm2aBvk5UQiQsSX7_JG-3SXLhu9DHw/exec; 
 
-    async function cargarHorasDisponibles() {
-        const fecha = document.getElementById('fecha').value;
-        const select = document.getElementById('hora');
-        const loader = document.getElementById('loader');
-        if(!fecha) return;
-
-        select.innerHTML = '<option>Cargando...</option>';
-        loader.style.display = 'block';
-
-        try {
-            const res = await fetch(SCRIPT_URL);
-            ocupados = await res.json();
+        async function generarHoras() {
+            const fechaInput = document.getElementById('fecha').value;
+            const horaSelect = document.getElementById('hora');
+            const loading = document.getElementById('loading');
             
-            select.innerHTML = '';
-            const fechaSel = new Date(fecha + "T00:00:00");
-            const dia = fechaSel.getDay();
-            
-            if(dia === 0) { select.innerHTML = '<option>Cerrado</option>'; return; }
+            if (!fechaInput) return;
 
-            let horas = (dia === 6) ? [7,8,9,10,11,12] : [7,8,9,10,11,13,14,15,16,17];
+            horaSelect.innerHTML = '<option>Cargando horas...</option>';
             
-            horas.forEach(h => {
-                let hf = (h < 10 ? '0'+h : h) + ':00 hs';
-                let idTurno = fecha + "_" + hf;
-                if(!ocupados.includes(idTurno)) {
+            let ocupados = [];
+            if (SCRIPT_URL !== "TU_URL_DE_APPS_SCRIPT") {
+                loading.style.display = "block";
+                try {
+                    const resp = await fetch(SCRIPT_URL);
+                    ocupados = await resp.json();
+                } catch (e) { console.log("Error de conexión con base de datos"); }
+                loading.style.display = "none";
+            }
+
+            horaSelect.innerHTML = '';
+            const fechaSeleccionada = new Date(fechaInput + "T00:00:00");
+            const diaSemana = fechaSeleccionada.getDay(); 
+
+            if (diaSemana === 0) {
+                horaSelect.innerHTML = '<option>Cerrado los Domingos</option>';
+                return;
+            }
+
+            // Generar lista de horas según el día
+            let horasPosibles = [];
+            if (diaSemana >= 1 && diaSemana <= 5) { // Lunes a Viernes
+                horasPosibles = [7, 8, 9, 10, 11, 13, 14, 15, 16, 17];
+            } else { // Sábado
+                horasPosibles = [7, 8, 9, 10, 11, 12];
+            }
+
+            horasPosibles.forEach(h => {
+                let hf = (h < 10 ? '0' + h : h) + ':00 hs';
+                let idTurno = fechaInput + "_" + hf;
+                
+                // Solo agregar si NO está en la lista de ocupados
+                if (!ocupados.includes(idTurno)) {
                     let opt = document.createElement('option');
-                    opt.value = hf; opt.text = hf; select.appendChild(opt);
+                    opt.value = hf; opt.text = hf;
+                    horaSelect.appendChild(opt);
                 }
             });
-            if(select.innerHTML === '') select.innerHTML = '<option>Sin turnos libres</option>';
-        } catch(e) { alert("Error al consultar turnos"); }
-        loader.style.display = 'none';
-    }
 
-    async function agendarTurno() {
-        const btn = document.querySelector('.btn-whatsapp');
-        const datos = {
-            nombre: document.getElementById('nombre').value,
-            servicio: "Mecánica",
-            fecha: document.getElementById('fecha').value,
-            hora: document.getElementById('hora').value,
-            telefono: "Cliente Web"
-        };
+            if (horaSelect.innerHTML === '') {
+                horaSelect.innerHTML = '<option>No hay turnos disponibles</option>';
+            }
+        }
 
-        if(!datos.nombre || !datos.fecha || !datos.hora) return alert("Completa los datos");
+        async function enviarTurno() {
+            const nombre = document.getElementById('nombre').value;
+            const servicio = document.getElementById('servicio').value;
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
 
-        btn.disabled = true; btn.innerText = "PROCESANDO...";
+            if (!nombre || !fecha || !hora || hora.includes("Seleccione")) {
+                alert("Por favor, completa todos los campos.");
+                return;
+            }
 
-        await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(datos)
-        });
+            // Enviar a Google Sheets si la URL está configurada
+            if (SCRIPT_URL !== "TU_URL_DE_APPS_SCRIPT") {
+                const datos = { nombre, servicio, fecha, hora, telefono: "Cliente Web" };
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(datos)
+                });
+            }
 
-        const msg = `Hola Andres, soy ${datos.nombre}. Agendé turno para el ${datos.fecha} a las ${datos.hora}.`;
-        window.open(`https://wa.me/59895738828?text=${encodeURIComponent(msg)}`, '_blank');
-        location.reload();
-    }
+            const mensaje = `Hola Armanetti Alineaciones, soy *${nombre}*.%0A%0A` +
+                            `Solicito turno para: *${servicio}*%0A` +
+                            `📅 Fecha: ${fecha}%0A` +
+                            `⏰ Hora: ${hora}`;
 
-    document.getElementById('fecha').min = new Date().toISOString().split("T")[0];
-</script>
+            window.open(`https://wa.me/59895738828?text=${mensaje}`, '_blank');
+        }
+
+        document.getElementById('fecha').min = new Date().toISOString().split("T")[0];
+    </script>
 </body>
 </html>
