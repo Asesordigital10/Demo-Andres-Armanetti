@@ -36,14 +36,13 @@
             display: flex; align-items: center; padding: 15px; text-decoration: none;
             color: #333; border: 3px solid var(--google-blue);
             box-shadow: 0 8px 15px rgba(0,0,0,0.5);
-            transition: transform 0.2s;
         }
-        .maps-card:active { transform: scale(0.98); }
 
         /* Formulario */
         .booking-card {
             background: var(--card-bg); padding: 25px; border-radius: 25px;
             border: 1px solid #2d2d2d; border-top: 4px solid var(--primary-red);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .form-group { margin-bottom: 18px; }
@@ -60,9 +59,9 @@
             font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
             margin-top: 10px;
         }
-        .btn-whatsapp:disabled { background-color: #555; cursor: not-allowed; }
+        .btn-whatsapp:disabled { background-color: #444; opacity: 0.6; }
 
-        .loading-text { font-size: 0.75rem; color: #fbc02d; display: none; margin-top: 5px; font-weight: bold; }
+        .loading-text { font-size: 0.75rem; color: #fbc02d; display: none; margin-top: 5px; text-align: center; font-weight: bold; }
         .break-info { color: #888; font-size: 0.75rem; margin-top: 8px; display: block; text-align: center; }
 
         footer { margin-top: 30px; padding-bottom: 30px; text-align: center; font-size: 0.75rem; color: #666; }
@@ -112,7 +111,7 @@
                 <select id="hora">
                     <option value="">Seleccione una fecha primero</option>
                 </select>
-                <div id="loading" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Verificando disponibilidad...</div>
+                <div id="loading" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Verificando disponibilidad real...</div>
                 <span class="break-info">Descanso: 12:00 a 13:00 hs</span>
             </div>
 
@@ -133,7 +132,8 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzINUneirUvVix6s3W9-gF1tJzwZxa367ZOBuG3bm2aBvk5UQiQsSX7_JG-3SXLhu9DHw/exec"; 
+        // URL DE TU SCRIPT ACTUALIZADA
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1Hfbr3WkZcDg3BjbWUve6xVJSUTwPd13VN5nhP6xhbfMG-IU6q-b1bok_lvHeuE8qsw/exec"; 
 
         async function generarHoras() {
             const fechaInput = document.getElementById('fecha').value;
@@ -142,49 +142,53 @@
             
             if (!fechaInput) return;
 
-            horaSelect.innerHTML = '<option>Cargando...</option>';
+            horaSelect.innerHTML = '<option>Verificando...</option>';
             loading.style.display = "block";
 
-            let ocupados = [];
             try {
-                const resp = await fetch(SCRIPT_URL);
-                ocupados = await resp.json();
-            } catch (e) {
-                console.log("Error cargando ocupados, se muestran todos.");
-            }
-
-            loading.style.display = "none";
-            horaSelect.innerHTML = '';
-            
-            const fechaSeleccionada = new Date(fechaInput + "T00:00:00");
-            const diaSemana = fechaSeleccionada.getDay(); 
-
-            if (diaSemana === 0) {
-                horaSelect.innerHTML = '<option>Cerrado los Domingos</option>';
-                return;
-            }
-
-            let horasPosibles = [];
-            if (diaSemana >= 1 && diaSemana <= 5) {
-                horasPosibles = [7, 8, 9, 10, 11, 13, 14, 15, 16, 17];
-            } else {
-                horasPosibles = [7, 8, 9, 10, 11, 12];
-            }
-
-            horasPosibles.forEach(h => {
-                const hf = (h < 10 ? '0' + h : h) + ':00 hs';
-                const idTurno = fechaInput + "_" + hf;
+                // Anti-caché para obligar a Google a dar datos frescos
+                const resp = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
+                const ocupados = await resp.json();
                 
-                if (!ocupados.includes(idTurno)) {
-                    const option = document.createElement('option');
-                    option.value = hf;
-                    option.text = hf;
-                    horaSelect.appendChild(option);
-                }
-            });
+                loading.style.display = "none";
+                horaSelect.innerHTML = '';
+                
+                const fechaSeleccionada = new Date(fechaInput + "T00:00:00");
+                const diaSemana = fechaSeleccionada.getDay(); 
 
-            if (horaSelect.innerHTML === '') {
-                horaSelect.innerHTML = '<option>No hay turnos libres</option>';
+                if (diaSemana === 0) {
+                    horaSelect.innerHTML = '<option>Cerrado los Domingos</option>';
+                    return;
+                }
+
+                let horasPosibles = [];
+                if (diaSemana >= 1 && diaSemana <= 5) {
+                    // Lunes a Viernes: 7 a 11 y 13 a 17
+                    horasPosibles = [7, 8, 9, 10, 11, 13, 14, 15, 16, 17];
+                } else {
+                    // Sábados: 7 a 12
+                    horasPosibles = [7, 8, 9, 10, 11, 12];
+                }
+
+                horasPosibles.forEach(h => {
+                    const hf = (h < 10 ? '0' + h : h) + ':00 hs';
+                    const idTurno = fechaInput + "_" + hf;
+                    
+                    // BLOQUEO REAL: Si el ID (fecha_hora) ya existe en el Excel, no se muestra
+                    if (!ocupados.includes(idTurno)) {
+                        const option = document.createElement('option');
+                        option.value = hf;
+                        option.text = hf;
+                        horaSelect.appendChild(option);
+                    }
+                });
+
+                if (horaSelect.innerHTML === '') {
+                    horaSelect.innerHTML = '<option>No hay turnos libres</option>';
+                }
+            } catch (e) {
+                alert("Error al conectar con la agenda. Intenta de nuevo.");
+                horaSelect.innerHTML = '<option>Error de conexión</option>';
             }
         }
 
@@ -196,35 +200,35 @@
             const btn = document.getElementById('btnEnviar');
 
             if (!nombre || !fecha || !hora || hora.includes("Seleccione") || hora.includes("No hay")) {
-                alert("Por favor, completa todos los campos.");
+                alert("Por favor, completa todos los campos correctamente.");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AGENDANDO...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> REGISTRANDO...';
 
             try {
                 // Guardar en Google Sheets
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    body: JSON.stringify({ nombre, servicio, fecha, hora, telefono: "Web" })
+                    body: JSON.stringify({ nombre, servicio, fecha, hora, telefono: "Cliente Web" })
                 });
 
                 const mensaje = `Hola Armanetti Alineaciones, soy *${nombre}*.%0A%0A` +
-                                `Solicito turno para: *${servicio}*%0A` +
+                                `Agendé turno para: *${servicio}*%0A` +
                                 `📅 Fecha: ${fecha}%0A` +
                                 `⏰ Hora: ${hora}`;
 
                 window.open(`https://wa.me/59895738828?text=${mensaje}`, '_blank');
                 
-                // Recargar para limpiar
-                setTimeout(() => { location.reload(); }, 2000);
+                // Recargar para actualizar la lista de horas
+                setTimeout(() => { location.reload(); }, 3000);
 
             } catch (e) {
                 alert("Hubo un error al agendar. Intenta de nuevo.");
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> AGENDAR TURNO';
+                btn.innerHTML = 'AGENDAR TURNO';
             }
         }
 
