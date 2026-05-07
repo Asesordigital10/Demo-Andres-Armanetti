@@ -36,7 +36,6 @@
             display: flex; align-items: center; padding: 15px; text-decoration: none;
             color: #333; border: 3px solid var(--google-blue);
             box-shadow: 0 8px 15px rgba(0,0,0,0.5);
-            transition: transform 0.2s;
         }
 
         /* Formulario */
@@ -60,7 +59,7 @@
             font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
             margin-top: 10px;
         }
-        .btn-whatsapp:disabled { background-color: #444; opacity: 0.6; }
+        .btn-whatsapp:disabled { background-color: #444; opacity: 0.6; cursor: not-allowed; }
 
         .loading-text { font-size: 0.75rem; color: #fbc02d; display: none; margin-top: 5px; text-align: center; font-weight: bold; }
         .break-info { color: #888; font-size: 0.75rem; margin-top: 8px; display: block; text-align: center; }
@@ -82,7 +81,7 @@
             </div>
             <div>
                 <strong style="display:block; color: #111;">J. J. Rousseau 3784</strong>
-                <span style="font-size:0.8rem; color:var(--google-blue); font-weight: bold;">ABRIR GOOGLE MAPS</span>
+                <span style="font-size:0.8rem; color:var(--google-blue); font-weight: bold;">TOCAR PARA ABRIR GPS</span>
             </div>
         </a>
 
@@ -112,7 +111,7 @@
                 <select id="hora">
                     <option value="">Seleccione una fecha primero</option>
                 </select>
-                <div id="loading" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Verificando disponibilidad real...</div>
+                <div id="loading" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Verificando agenda real...</div>
                 <span class="break-info">Descanso: 12:00 a 13:00 hs</span>
             </div>
 
@@ -147,7 +146,7 @@
             loading.style.display = "block";
 
             try {
-                // Anti-caché: agregamos un timestamp para que Google no nos dé datos viejos
+                // Anti-caché para datos frescos
                 const resp = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
                 const ocupados = await resp.json();
                 
@@ -164,10 +163,8 @@
 
                 let horasPosibles = [];
                 if (diaSemana >= 1 && diaSemana <= 5) {
-                    // Lunes a Viernes: 7 a 11 y 13 a 17 (Descanso a las 12)
                     horasPosibles = [7, 8, 9, 10, 11, 13, 14, 15, 16, 17];
                 } else {
-                    // Sábados: 7 a 12
                     horasPosibles = [7, 8, 9, 10, 11, 12];
                 }
 
@@ -175,8 +172,8 @@
                     const hf = (h < 10 ? '0' + h : h) + ':00 hs';
                     const idTurno = fechaInput + "_" + hf;
                     
-                    // BLOQUEO: Si el ID (fecha_hora) ya existe en el Excel, no se muestra
-                    if (!ocupados.includes(idTurno)) {
+                    // BLOQUEO: Si el ID existe en el Excel, no se muestra
+                    if (!ocupados.includes(idTurno.trim())) {
                         const option = document.createElement('option');
                         option.value = hf;
                         option.text = hf;
@@ -188,7 +185,7 @@
                     horaSelect.innerHTML = '<option>No hay turnos libres</option>';
                 }
             } catch (e) {
-                alert("Error al conectar con la agenda. Intenta de nuevo.");
+                alert("Error al conectar con la agenda.");
                 horaSelect.innerHTML = '<option>Error de conexión</option>';
             }
         }
@@ -206,36 +203,37 @@
             }
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AGENDANDO...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> REGISTRANDO...';
 
             try {
                 // 1. Guardar en Google Sheets
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    body: JSON.stringify({ nombre, servicio, fecha, hora, telefono: "Cliente Web" })
+                    body: JSON.stringify({ nombre, servicio, fecha, hora, telefono: "Web" })
                 });
 
-                // 2. Preparar mensaje de WhatsApp
+                // 2. Formatear fecha para WhatsApp (Día/Mes/Año)
+                const fechaBonita = fecha.split('-').reverse().join('/');
+
                 const mensaje = `Hola Armanetti Alineaciones, soy *${nombre}*.%0A%0A` +
                                 `Agendé turno para: *${servicio}*%0A` +
-                                `📅 Fecha: ${fecha}%0A` +
-                                `⏰ Hora: ${hora}`;
+                                `📅 Fecha: *${fechaBonita}*%0A` +
+                                `⏰ Hora: *${hora}*`;
 
                 // 3. Abrir WhatsApp
                 window.open(`https://wa.me/59895738828?text=${mensaje}`, '_blank');
                 
-                // 4. Recargar la página para que el turno ya aparezca bloqueado
+                // 4. Recargar
                 setTimeout(() => { location.reload(); }, 3000);
 
             } catch (e) {
-                alert("Hubo un error al agendar. Intenta de nuevo.");
+                alert("Hubo un error al agendar.");
                 btn.disabled = false;
                 btn.innerHTML = 'AGENDAR TURNO';
             }
         }
 
-        // Bloquear fechas pasadas
         const hoy = new Date().toISOString().split("T")[0];
         document.getElementById('fecha').setAttribute('min', hoy);
     </script>
