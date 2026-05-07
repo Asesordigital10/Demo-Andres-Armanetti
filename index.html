@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --primary-red: #cc0000;
+            --red: #cc0000;
             --google-blue: #4285F4;
             --dark-bg: #0a0a0a;
             --card-bg: #151515;
@@ -28,9 +28,8 @@
         .container { width: 100%; max-width: 450px; }
 
         header { text-align: center; padding: 20px 15px; }
-        .logo-img { width: 220px; filter: drop-shadow(0px 4px 15px rgba(204, 0, 0, 0.3)); }
+        .logo-img { width: 220px; filter: drop-shadow(0px 4px 15px rgba(204, 0, 0, 0.4)); }
 
-        /* Tarjeta Google Maps */
         .maps-card {
             background: #ffffff; border-radius: 15px; margin: 0 10px 25px 10px;
             display: flex; align-items: center; padding: 15px; text-decoration: none;
@@ -38,15 +37,14 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.5);
         }
 
-        /* Formulario */
         .booking-card {
             background: var(--card-bg); padding: 25px; border-radius: 25px;
-            border: 1px solid #2d2d2d; border-top: 4px solid var(--primary-red);
+            border: 1px solid #2d2d2d; border-top: 4px solid var(--red);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--primary-red); font-weight: bold; text-transform: uppercase; }
+        label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--red); font-weight: bold; text-transform: uppercase; }
         
         input, select {
             width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #333;
@@ -59,7 +57,7 @@
             font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
             margin-top: 10px;
         }
-        .btn-whatsapp:disabled { background-color: #444; opacity: 0.6; cursor: not-allowed; }
+        .btn-whatsapp:disabled { background-color: #444; opacity: 0.6; }
 
         .loading-text { font-size: 0.75rem; color: #fbc02d; display: none; margin-top: 5px; text-align: center; font-weight: bold; }
         .break-info { color: #888; font-size: 0.75rem; margin-top: 8px; display: block; text-align: center; }
@@ -74,44 +72,43 @@
             <img src="andresrojo.jpeg" alt="Armanetti Alineaciones" class="logo-img">
         </header>
 
-        <!-- Google Maps -->
         <a href="https://www.google.com/maps/search/?api=1&query=Juan+Jacobo+Rousseau+3784+Montevideo" target="_blank" class="maps-card">
             <div style="background:var(--google-blue); color:white; width:45px; height:45px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-right:15px; flex-shrink:0;">
                 <i class="fa-solid fa-location-dot"></i>
             </div>
             <div>
-                <strong style="display:block; color: #111;">J. J. Rousseau 3784</strong>
-                <span style="font-size:0.8rem; color:var(--google-blue); font-weight: bold;">TOCAR PARA ABRIR GPS</span>
+                <strong style="display:block; color: #111;">J. Rousseau 3784</strong>
+                <span style="font-size:0.8rem; color:var(--google-blue); font-weight: bold;">ABRIR GOOGLE MAPS</span>
             </div>
         </a>
 
         <div class="booking-card">
             <div class="form-group">
-                <label><i class="fa-solid fa-user"></i> Nombre Completo</label>
+                <label>Nombre Completo</label>
                 <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
             </div>
 
             <div class="form-group">
-                <label><i class="fa-solid fa-gears"></i> Servicio</label>
+                <label>Servicio</label>
                 <select id="servicio">
-                    <option value="Alineación y Balanceo">Alineación y Balanceo</option>
-                    <option value="Tren Delantero/Trasero">Tren Delantero / Trasero</option>
-                    <option value="Venta de Cubiertas">Venta de Cubiertas</option>
-                    <option value="Mecánica Ligera">Mecánica Ligera</option>
+                    <option>Alineación y Balanceo</option>
+                    <option>Tren Delantero/Trasero</option>
+                    <option>Venta de Cubiertas</option>
+                    <option>Mecánica Ligera</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label><i class="fa-solid fa-calendar-day"></i> Seleccionar Fecha</label>
+                <label>Seleccionar Fecha</label>
                 <input type="date" id="fecha" onchange="generarHoras()">
             </div>
 
             <div class="form-group">
-                <label><i class="fa-solid fa-clock"></i> Hora Disponible</label>
+                <label>Hora Disponible</label>
                 <select id="hora">
-                    <option value="">Seleccione una fecha primero</option>
+                    <option value="">Seleccione una fecha</option>
                 </select>
-                <div id="loading" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Verificando agenda real...</div>
+                <div id="loading" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Sincronizando agenda...</div>
                 <span class="break-info">Descanso: 12:00 a 13:00 hs</span>
             </div>
 
@@ -120,20 +117,13 @@
             </button>
         </div>
 
-        <div style="margin-top: 20px; text-align: center;">
-            <a href="https://wa.me/59895738828?text=Hola%20Andres,%20tengo%20una%20consulta%20técnica..." target="_blank" style="color: #00a8ff; text-decoration: none; font-weight: bold; font-size: 0.9rem;">
-                <i class="fa-solid fa-screwdriver-wrench"></i> CONSULTA TÉCNICA DIRECTA
-            </a>
-        </div>
-
         <footer>
             <p>Armanetti Alineaciones | Montevideo<br>L-V: 07 a 18 | S: 07 a 13</p>
         </footer>
     </div>
 
     <script>
-        // URL DE TU SCRIPT ACTUALIZADA
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxaLvMLYcutveaXHvjLS_JfvVULHP0Z_zBvtzztponOM0mj4sLwQ6p311ZywF8gCJahtA/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxOliTmaS-zc7UFwhA7IGvrZEcGLSseU7vJUMd0LLKMH1W5JTujB1ADNWeq4OIwc2XnQw/exec"; 
 
         async function generarHoras() {
             const fechaInput = document.getElementById('fecha').value;
@@ -142,52 +132,47 @@
             
             if (!fechaInput) return;
 
-            horaSelect.innerHTML = '<option>Verificando...</option>';
-            loading.style.display = "block";
+            // 1. Mostrar todas las horas inmediatamente
+            horaSelect.innerHTML = '';
+            const diaSemana = new Date(fechaInput + "T00:00:00").getDay(); 
 
+            if (diaSemana === 0) {
+                horaSelect.innerHTML = '<option>Cerrado los Domingos</option>';
+                return;
+            }
+
+            let horasBase = (diaSemana >= 1 && diaSemana <= 5) 
+                ? [7, 8, 9, 10, 11, 13, 14, 15, 16, 17] 
+                : [7, 8, 9, 10, 11, 12];
+
+            horasBase.forEach(h => {
+                const hf = (h < 10 ? '0' + h : h) + ':00 hs';
+                const option = document.createElement('option');
+                option.value = hf;
+                option.text = hf;
+                horaSelect.appendChild(option);
+            });
+
+            // 2. Consultar a Google para FILTRAR las ocupadas
+            loading.style.display = "block";
             try {
-                // Anti-caché para datos frescos
                 const resp = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
                 const ocupados = await resp.json();
                 
-                loading.style.display = "none";
-                horaSelect.innerHTML = '';
-                
-                const fechaSeleccionada = new Date(fechaInput + "T00:00:00");
-                const diaSemana = fechaSeleccionada.getDay(); 
+                // Limpiamos los ocupados para comparar sin errores (minúsculas y sin espacios)
+                const ocupadosLimpios = ocupados.map(o => o.toLowerCase().replace(/\s/g, ""));
 
-                if (diaSemana === 0) {
-                    horaSelect.innerHTML = '<option>Cerrado los Domingos</option>';
-                    return;
-                }
-
-                let horasPosibles = [];
-                if (diaSemana >= 1 && diaSemana <= 5) {
-                    horasPosibles = [7, 8, 9, 10, 11, 13, 14, 15, 16, 17];
-                } else {
-                    horasPosibles = [7, 8, 9, 10, 11, 12];
-                }
-
-                horasPosibles.forEach(h => {
-                    const hf = (h < 10 ? '0' + h : h) + ':00 hs';
-                    const idTurno = fechaInput + "_" + hf;
-                    
-                    // BLOQUEO: Si el ID existe en el Excel, no se muestra
-                    if (!ocupados.includes(idTurno.trim())) {
-                        const option = document.createElement('option');
-                        option.value = hf;
-                        option.text = hf;
-                        horaSelect.appendChild(option);
+                Array.from(horaSelect.options).forEach(opt => {
+                    const llaveWeb = (fechaInput + "_" + opt.value).toLowerCase().replace(/\s/g, "");
+                    if (ocupadosLimpios.includes(llaveWeb)) {
+                        opt.remove();
                     }
                 });
-
-                if (horaSelect.innerHTML === '') {
-                    horaSelect.innerHTML = '<option>No hay turnos libres</option>';
-                }
             } catch (e) {
-                alert("Error al conectar con la agenda.");
-                horaSelect.innerHTML = '<option>Error de conexión</option>';
+                console.log("Error de conexión, se muestran todas las horas.");
             }
+            loading.style.display = "none";
+            if (horaSelect.innerHTML === '') horaSelect.innerHTML = '<option>Sin turnos libres</option>';
         }
 
         async function enviarTurno() {
@@ -197,45 +182,42 @@
             const hora = document.getElementById('hora').value;
             const btn = document.getElementById('btnEnviar');
 
-            if (!nombre || !fecha || !hora || hora.includes("Seleccione") || hora.includes("No hay")) {
-                alert("Por favor, completa todos los campos correctamente.");
+            if (!nombre || !fecha || !hora || hora.includes("Seleccione") || hora.includes("Sin turnos")) {
+                alert("Por favor, completa todos los campos.");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> REGISTRANDO...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AGENDANDO...';
 
             try {
-                // 1. Guardar en Google Sheets
+                // Guardar en Google Sheets
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    body: JSON.stringify({ nombre, servicio, fecha, hora, telefono: "Web" })
+                    body: JSON.stringify({ nombre, servicio, fecha, hora })
                 });
 
-                // 2. Formatear fecha para WhatsApp (Día/Mes/Año)
-                const fechaBonita = fecha.split('-').reverse().join('/');
+                // Formatear fecha para WhatsApp (DD/MM/YYYY)
+                const fechaWpp = fecha.split('-').reverse().join('/');
 
                 const mensaje = `Hola Armanetti Alineaciones, soy *${nombre}*.%0A%0A` +
                                 `Agendé turno para: *${servicio}*%0A` +
-                                `📅 Fecha: *${fechaBonita}*%0A` +
+                                `📅 Fecha: *${fechaWpp}*%0A` +
                                 `⏰ Hora: *${hora}*`;
 
-                // 3. Abrir WhatsApp
                 window.open(`https://wa.me/59895738828?text=${mensaje}`, '_blank');
                 
-                // 4. Recargar
-                setTimeout(() => { location.reload(); }, 3000);
+                setTimeout(() => { location.reload(); }, 2500);
 
             } catch (e) {
-                alert("Hubo un error al agendar.");
+                alert("Error al agendar. Intenta de nuevo.");
                 btn.disabled = false;
                 btn.innerHTML = 'AGENDAR TURNO';
             }
         }
 
-        const hoy = new Date().toISOString().split("T")[0];
-        document.getElementById('fecha').setAttribute('min', hoy);
+        document.getElementById('fecha').min = new Date().toISOString().split("T")[0];
     </script>
 </body>
 </html>
