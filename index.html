@@ -123,7 +123,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxOliTmaS-zc7UFwhA7IGvrZEcGLSseU7vJUMd0LLKMH1W5JTujB1ADNWeq4OIwc2XnQw/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw5SIa_foAGqP9fYxIXN7MwlxXckEi_FOLRe_bqBd__1v40VworVwJbbW8fyEPCW3um6Q/exec";
 
         async function generarHoras() {
             const fechaInput = document.getElementById('fecha').value;
@@ -132,17 +132,16 @@
             
             if (!fechaInput) return;
 
-            // 1. Mostrar todas las horas inmediatamente
             horaSelect.innerHTML = '';
-            const diaSemana = new Date(fechaInput + "T00:00:00").getDay(); 
+            const diaSemana = new Date(fechaInput + "T00:00:00").getDay();
 
             if (diaSemana === 0) {
                 horaSelect.innerHTML = '<option>Cerrado los Domingos</option>';
                 return;
             }
 
-            let horasBase = (diaSemana >= 1 && diaSemana <= 5) 
-                ? [7, 8, 9, 10, 11, 13, 14, 15, 16, 17] 
+            let horasBase = (diaSemana >= 1 && diaSemana <= 5)
+                ? [7, 8, 9, 10, 11, 13, 14, 15, 16, 17]
                 : [7, 8, 9, 10, 11, 12];
 
             horasBase.forEach(h => {
@@ -153,30 +152,37 @@
                 horaSelect.appendChild(option);
             });
 
-            // 2. Consultar a Google para FILTRAR las ocupadas
+            // Consultar turnos ocupados
             loading.style.display = "block";
             try {
-                const resp = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
+                const resp = await fetch(SCRIPT_URL + "?fecha=" + fechaInput + "&t=" + new Date().getTime());
                 const ocupados = await resp.json();
-                
-                // Limpiamos los ocupados para comparar sin errores (minúsculas y sin espacios)
+
+                // ✅ FIX: eliminamos todos los espacios para comparar correctamente
                 const ocupadosLimpios = ocupados.map(o => o.toLowerCase().replace(/\s/g, ""));
 
                 Array.from(horaSelect.options).forEach(opt => {
                     const llaveWeb = (fechaInput + "_" + opt.value).toLowerCase().replace(/\s/g, "");
                     if (ocupadosLimpios.includes(llaveWeb)) {
-                        opt.remove();
+                        opt.disabled = true;
+                        opt.text = opt.text + " (Ocupado)";
                     }
                 });
+
+                // Si todas las opciones están ocupadas
+                const libres = Array.from(horaSelect.options).filter(o => !o.disabled);
+                if (libres.length === 0) {
+                    horaSelect.innerHTML = '<option>Sin turnos libres</option>';
+                }
+
             } catch (e) {
                 console.log("Error de conexión, se muestran todas las horas.");
             }
             loading.style.display = "none";
-            if (horaSelect.innerHTML === '') horaSelect.innerHTML = '<option>Sin turnos libres</option>';
         }
 
         async function enviarTurno() {
-            const nombre = document.getElementById('nombre').value;
+            const nombre = document.getElementById('nombre').value.trim();
             const servicio = document.getElementById('servicio').value;
             const fecha = document.getElementById('fecha').value;
             const hora = document.getElementById('hora').value;
@@ -191,29 +197,37 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AGENDANDO...';
 
             try {
-                // Guardar en Google Sheets
-                await fetch(SCRIPT_URL, {
+                // ✅ FIX: sin mode:'no-cors' para poder leer la respuesta
+                const resp = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify({ nombre, servicio, fecha, hora })
                 });
 
-                // Formatear fecha para WhatsApp (DD/MM/YYYY)
-                const fechaWpp = fecha.split('-').reverse().join('/');
+                const resultado = await resp.text();
 
+                if (resultado === "DUPLICADO") {
+                    alert("⚠️ Ese turno acaba de ser tomado. Por favor elegí otro horario.");
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> AGENDAR TURNO';
+                    generarHoras(); // Refresca las horas disponibles
+                    return;
+                }
+
+                // Si es OK → abrir WhatsApp
+                const fechaWpp = fecha.split('-').reverse().join('/');
                 const mensaje = `Hola Armanetti Alineaciones, soy *${nombre}*.%0A%0A` +
                                 `Agendé turno para: *${servicio}*%0A` +
                                 `📅 Fecha: *${fechaWpp}*%0A` +
                                 `⏰ Hora: *${hora}*`;
 
                 window.open(`https://wa.me/59895738828?text=${mensaje}`, '_blank');
-                
                 setTimeout(() => { location.reload(); }, 2500);
 
             } catch (e) {
                 alert("Error al agendar. Intenta de nuevo.");
                 btn.disabled = false;
-                btn.innerHTML = 'AGENDAR TURNO';
+                btn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> AGENDAR TURNO';
             }
         }
 
